@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Screenshot Element Example</title>
+</head>
+<body>
+    <div id="elementToScreenshot">
+        <!-- Your content goes here -->
+    </div>
+    <button onclick="takeScreenshot()">Take Screenshot</button>
+
+    <script>
+        function takeScreenshot() {
+            // Get the element to screenshot
+            const element = document.getElementById('elementToScreenshot');
+
+            // Create a canvas to render the element
+            const canvas = document.createElement('canvas');
+            canvas.width = element.offsetWidth;
+            canvas.height = element.offsetHeight;
+            const context = canvas.getContext('2d');
+
+            // Draw the element onto the canvas
+            context.drawWindow(window, element, element.offsetWidth, element.offsetHeight, 'rgb(255,255,255)');
+
+            // Open the screenshot in a new window
+            const screenshotURL = canvas.toDataURL('image/png');
+            window.open(screenshotURL);
+        }
+    </script>
+</body>
+</html>

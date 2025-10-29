@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
+    <title>
+        Draw with the mouse in a HTML5 canvas
+    </title>
+
+    <style>
+        * {
+            overflow: hidden;
+        }
+        body {
+            text-align: center;
+            background-color:white;
+        }
+        h1 {
+            color: green;
+        }
+        canvas {
+            background-color: white;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas">
+    </canvas>
+    <div id="createPNGButton">
+        <button class="button" onclick="putImage()">Save as Image</button>
+    </div>
+    <script src="index.js"></script>
+
+</body>
+
+<script>
+    // wait for the content of the window element
+    // to load, then performs the operations.
+    // This is considered best practice.
+    window.addEventListener('load', ()=>{
+            
+        resize(); // Resizes the canvas once the window loads
+        document.addEventListener('mousedown', startPainting);
+        document.addEventListener('mouseup', stopPainting);
+        document.addEventListener('mousemove', sketch);
+        window.addEventListener('resize', resize);
+    });
+        
+    const canvas = document.querySelector('#canvas');
+    
+    // Context for the canvas for 2 dimensional operations
+    const ctx = canvas.getContext('2d');
+
+
+        
+    // Resizes the canvas to the available size of the window.
+    function resize(){
+
+    ctx.canvas.width = "768";
+    ctx.canvas.height = "710"; //768 minus the height of the save button
+    // ctx.canvas.width = window.innerWidth;
+    // ctx.canvas.height = window.innerHeight;
+
+
+
+    // draw the lines that are there at the beginning
+
+    ctx.lineWidth = 6;
+    
+    // Sets the end of the lines drawn
+    // to a round shape.
+    ctx.lineCap = 'round';
+        
+    ctx.strokeStyle = 'black';
+
+    ctx.moveTo(200, 190);
+    ctx.lineTo(300, 150);
+    ctx.stroke();
+
+    ctx.moveTo(650, 200);
+    ctx.lineTo(550, 150);
+    ctx.stroke();   
+
+    // this is the circle
+    ctx.moveTo(700, 200);
+    ctx.beginPath();
+    ctx.arc(388, 350, 40, 0, 2 * Math.PI);
+    ctx.stroke();
+    }
+        
+    // Stores the initial position of the cursor
+    let coord = {x:0 , y:0};
+    
+    // This is the flag that we are going to use to
+    // trigger drawing
+    let paint = false;
+        
+    // Updates the coordianates of the cursor when
+    // an event e is triggered to the coordinates where
+    // the said event is triggered.
+    function getPosition(event){        
+    coord.x = event.clientX - canvas.offsetLeft;
+    coord.y = event.clientY - canvas.offsetTop;    
+    }
+
+
+    
+    // The following functions toggle the flag to start
+    // and stop drawing
+    function startPainting(event){
+    paint = true;
+    getPosition(event);
+    }
+    function stopPainting(){
+    paint = false;
+    }
+        
+    function sketch(event){
+    if (!paint) return;
+    ctx.beginPath();
+        
+    ctx.lineWidth = 6;
+    
+    // Sets the end of the lines drawn
+    // to a round shape.
+    ctx.lineCap = 'round';
+        
+    ctx.strokeStyle = 'black';
+
+        
+    // The cursor to start drawing
+    // moves to this coordinate
+    ctx.moveTo(coord.x, coord.y);
+    
+
+    // The position of the cursor
+    // gets updated as we move the
+    // mouse around.
+    getPosition(event);
+    
+    // A line is traced from start
+    // coordinate to this coordinate
+    ctx.lineTo(coord.x , coord.y);
+        
+
+
+    // Draws the line.
+    ctx.stroke();
+    }
+
+
+
+    
+
+    // download the image (actually works lol)
+    function putImage()
+    {
+        let downloadLink = document.createElement('a');
+        downloadLink.setAttribute('download', 'my masterpiece!.png');
+        let canvas = document.getElementById('canvas');
+        canvas.toBlob(function(blob) {
+          let url = URL.createObjectURL(blob);
+          downloadLink.setAttribute('href', url);
+          downloadLink.click();
+        });
+    }Link.click();
+
+
+      // // convert the canvas to a base64 image
+    // const canvas = document.getElementById("canvas");
+    // const dataURL = canvas.toDataURL();
+    // alert(dataURL);
+    // console.log(dataURL);
+
+    // // send the image to the showcase file as drawing1
+    // // const drawing1 = dataURL.value;
+
+    // localStorage.setItem("drawing-1", dataURL)
+
+
+    // // send to next file
+    // window.location.href = "showcase.html"
+
+    // }
+
+
+    // var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+
+
+    // window.location.href=image; // it will save locally
+    // }
+
+
+
+</script>
+
+</html>

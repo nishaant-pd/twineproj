@@ -1,0 +1,17 @@
+@font-face { font-family: pixel; src: url('../pixelfont.TTF'); } 
+
+.button {
+  background-color: #423b39;
+  border: none;
+  color: #f6ea4b;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  font-family: pixel
+}
+
+canvas:hover {
+  cursor: nw-resize;
+}
